@@ -1,0 +1,60 @@
+Brute Force - T(c) - O(n*n) , S(c) - O(n*n*n) at worst case
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int distinctSubstring(String word) {
+        // Write your code here.
+        HashSet<String> set=new HashSet<>();
+        for(int i=0;i<word.length();i++){
+            String str="";
+            for(int j=i;j<word.length();j++){
+                str=str+word.charAt(j);
+                set.add(str);
+            }
+        }
+        return set.size();
+    }
+}
+
+Optimal Approach-  T(c) - O(n*n) , S(c) - O(n)
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+class Node{
+	Node[] links=new Node[26];
+	public Node(){
+
+	}
+	boolean containskey(char ch){
+		return links[ch-'a']!=null;
+	}
+	void put(char ch,Node node){
+		links[ch-'a']=node;
+	}
+	Node get(char ch){
+		return links[ch-'a'];
+	}
+}
+public class Solution 
+{
+
+	public static int countDistinctSubstrings(String s) 
+	{
+		//	  Write your code here.
+		int cnt=0;
+		Node root=new Node();
+		for(int i=0;i<s.length();i++){
+			Node node=root;
+			for(int j=i;j<s.length();j++){
+				if(!node.containskey(s.charAt(j))){
+					node.put(s.charAt(j),new Node());
+                    cnt++;
+				}
+                node=node.get(s.charAt(j));
+			}
+		}
+		return cnt+1;
+	}
+}
